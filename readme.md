@@ -2,6 +2,19 @@
 
 *How I designed observability, evaluation, and decisioning for reliable GenAI products.*
 
+### Data Source & Knowledge Scope
+
+This RAG system is grounded on a single product management guide (PDF) covering core PM concepts such as product strategy, prioritization frameworks, user stories, and backlog management.
+
+The document was selected intentionally because it is **concept-heavy and definition-driven**, a common failure mode for RAG systems that tend to answer from model memory rather than retrieved context.
+
+To prepare the data:
+- the PDF was split into chunks with small overlap,
+- embedded using a sentence-level embedding model,
+- and indexed in a vector database for similarity-based retrieval.
+
+The system was deliberately scoped to a single document to isolate and evaluate **retrieval quality, grounding, and faithfulness** before extending to multi-document setups.
+
 ---
 
 ## 1. Why This Artifact Exists
@@ -228,9 +241,10 @@ After introducing rubric-based ground truths:
 - Faithfulness improved from ~0.80 → 1.00, indicating fewer ungrounded responses
 - Relevancy, precision, and recall remained consistently high
 
-A key insight:
+Key insights:
 >Low correctness does not always indicate poor model performance, it can signal poorly designed ground truth.
->High correctness with low faithfulness means the model answered correctly **for the wrong reason** — a major production risk.
+
+>High correctness with low faithfulness means the model answered correctly **for the wrong reason** , a major production risk.
 
 
 ---
